@@ -12,7 +12,7 @@ Estou profundamente focado em criar minha propria **Fabrica de software**, com o
 ## 🌐 Onde me encontrar
 
 <p align="left">
-  <a href="https://github.com/GustavoRodriguesResende">
+  <a href="https://github.com/GustavoResendeDev">
     <img src="https://img.shields.io/badge/GitHub-GustavoRodriguesResende-181717?style=for-the-badge&logo=github" />
   </a>
   <a href="https://instagram.com/gustavoresende.dev">
