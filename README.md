@@ -15,7 +15,7 @@ Estou profundamente focado em criar minha propria **Fabrica de software**, com o
   <a href="https://github.com/GustavoRodriguesResende">
     <img src="https://img.shields.io/badge/GitHub-GustavoRodriguesResende-181717?style=for-the-badge&logo=github" />
   </a>
-  <a href="https://instagram.com/tavo_res">
+  <a href="https://instagram.com/gustavoresende.dev">
     <img src="https://img.shields.io/badge/Instagram-@tavo_res-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
   </a> 
 </p>
