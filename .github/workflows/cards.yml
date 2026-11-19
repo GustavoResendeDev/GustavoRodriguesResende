@@ -1,0 +1,59 @@
+name: Profile cards
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # daily, 03:17 in São Paulo
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - render_cards.py
+      - data/query.graphql
+      - assets/**
+      - fonts/**
+      - .github/workflows/cards.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-cards
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch contribution data
+        env:
+          # Optional: a CARDS_TOKEN secret (classic PAT, read:user) also counts private contributions.
+          GH_TOKEN: ${{ secrets.CARDS_TOKEN || github.token }}
+        run: |
+          gh api graphql -f login="${{ github.repository_owner }}" -F query=@data/query.graphql > data/contributions.tmp.json
+          python3 -c "import json,sys; d=json.load(open('data/contributions.tmp.json')); sys.exit('GraphQL errors: %s' % d['errors'] if d.get('errors') else 0)"
+          mv data/contributions.tmp.json data/contributions.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: .github/workflows/cards.yml
+
+      - name: Render cards
+        run: |
+          pip install fonttools==4.* pillow
+          python render_cards.py
+
+      - name: Commit cards
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/contributions.json cards README.md
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update profile cards"
+            git push
+          fi
